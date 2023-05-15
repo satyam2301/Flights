@@ -22,4 +22,53 @@ async function createAirplane(data) {
     );
   }
 }
-module.exports = { createAirplane };
+
+async function getAirplanes() {
+  try {
+    const airplane = await airplanerepository.getAll();
+    return airplane;
+  } catch (error) {
+    throw new AppError(
+      'Cannot fetch data of all the airplanes',
+      StatusCodes.INTERNAL_SERVER_ERROR
+    );
+  }
+}
+
+async function getAirplane(id) {
+  try {
+    const airplane = await airplanerepository.get(id);
+    return airplane;
+  } catch (error) {
+    if (error.statusCode == StatusCodes.NOT_FOUND) {
+      throw new AppError(
+        'The Airplane you requested is not present',
+        error.statusCode
+      );
+    }
+    throw new AppError(
+      'Cannot fetch data of airplane with this id',
+      StatusCodes.INTERNAL_SERVER_ERROR
+    );
+  }
+}
+
+async function destroyAirplane(id) {
+  try {
+    const response = await airplanerepository.destroy(id);
+    return response;
+  } catch (error) {
+    if (error.statusCode == StatusCodes.NOT_FOUND) {
+      throw new AppError(
+        'The Airplane you requested to delete is not present',
+        error.statusCode
+      );
+    }
+    throw new AppError(
+      'Cannot fetch that airplane',
+      StatusCodes.INTERNAL_SERVER_ERROR
+    );
+  }
+}
+
+module.exports = { createAirplane, getAirplanes, getAirplane, destroyAirplane };
