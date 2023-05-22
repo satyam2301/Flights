@@ -13,9 +13,9 @@ router.post(
 );
 
 /*
- * GET -> url=> /api/v1/airports/
+ * GET -> url=> /api/v1/flights?trips=mum-del
  */
-
+router.get('/', FlightController.getAllFlights);
 /*
  * GET -> url=> /api/v1/airports/id
  */
