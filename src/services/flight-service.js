@@ -27,6 +27,9 @@ async function createFlight(data) {
 async function getAllFlights(query) {
   // trips=MUM_DEL
   let customFilter = {};
+  let sortFilter = [];
+  const endingTripTime = ' 23:59:00';
+
   if (query.trips) {
     [departureAirportId, arrivalAirportId] = query.trips.split('-');
     if (departureAirportId === arrivalAirportId) {
@@ -53,8 +56,22 @@ async function getAllFlights(query) {
     };
   }
 
+  if (query.tripDate) {
+    customFilter.departureTime = {
+      [Op.between]: [query.tripDate, query.tripDate + endingTripTime],
+    };
+  }
+
+  if (query.sort) {
+    const params = query.sort.split(',');
+    sortFilter = params.map((param) => param.split('_'));
+  }
+
   try {
-    const flights = await flightRepository.getAllFlights(customFilter);
+    const flights = await flightRepository.getAllFlights(
+      customFilter,
+      sortFilter
+    );
     return flights;
   } catch (error) {
     throw new AppError(
