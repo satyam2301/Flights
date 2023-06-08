@@ -16,12 +16,14 @@ router.post(
  * GET -> url=> /api/v1/flights?trips=mum-del
  */
 router.get('/', FlightController.getAllFlights);
-/*
- * GET -> url=> /api/v1/airports/id
- */
 
 /*
- * DELETE -> url=> /api/v1/airports/id
+ * GET -> url=> /api/v1/flights/id
+ */
+router.get('/:id', FlightController.getFlight);
+
+/*
+ * DELETE -> url=> /api/v1/flights/id
  */
 
 module.exports = router;

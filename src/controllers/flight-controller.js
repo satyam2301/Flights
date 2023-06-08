@@ -49,6 +49,17 @@ async function getAllFlights(req, res) {
  * req-body {}
  */
 
+async function getFlight(req, res) {
+  try {
+    const flight = await FlightService.getFlight(req.params.id);
+    SuccessResponse.data = flight;
+    return res.status(StatusCodes.OK).json(SuccessResponse);
+  } catch (error) {
+    ErrorResponse.error = error;
+    return res.status(error.statusCode).json(ErrorResponse);
+  }
+}
+
 /**
  * DELETE: /airports/:id
  * req-body {}
@@ -57,4 +68,5 @@ async function getAllFlights(req, res) {
 module.exports = {
   createFlight,
   getAllFlights,
+  getFlight,
 };
