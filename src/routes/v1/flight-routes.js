@@ -23,7 +23,12 @@ router.get('/', FlightController.getAllFlights);
 router.get('/:id', FlightController.getFlight);
 
 /*
- * DELETE -> url=> /api/v1/flights/id
+ * PATCH -> url=> /api/v1/flights/:id/seats
  */
+router.patch(
+  '/:id/seats',
+  FlightMiddlewares.validateUpdateSeatsRequest,
+  FlightController.updateSeats
+);
 
 module.exports = router;
